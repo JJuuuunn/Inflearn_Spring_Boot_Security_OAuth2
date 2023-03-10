@@ -24,14 +24,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.csrf().disable();
         http.authorizeRequests()
-                .antMatchers("/user/**").authenticated() // 해당 주소는 주소값이 들어오면 인증이 필요
-                .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')") // 해당 주소는 ADMIN 또는 MANAGER 권한이 필요
-                .antMatchers("/manager/**").access("hasRole('ROLE_ADMIN')") //// 해당 주소는 ADMIN 권한이 필요
+                .antMatchers("/user/**").authenticated() // 인증만 되면 해당 주소로 접근 가능
+                .antMatchers("/manager/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')") // 해당 주소는 ADMIN 또는 MANAGER 권한이 필요
+                .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')") //// 해당 주소는 ADMIN 권한이 필요
                 .anyRequest().permitAll() // 나머지 주소는 전부 허용
                 .and()
                 .formLogin()
                 .loginPage("/loginForm")
                 .loginProcessingUrl("/login") // login 호출시 Security 에서 로그인 진행
-                .defaultSuccessUrl("/");
+                .defaultSuccessUrl("/"); // 로그인 성공 후에 로그인 화면 전 경로로 이동
     }
 }
