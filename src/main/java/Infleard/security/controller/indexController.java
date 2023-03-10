@@ -4,16 +4,20 @@ import Infleard.security.config.UserRepository;
 import Infleard.security.model.Role;
 import Infleard.security.model.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import static Infleard.security.model.Role.ROLE_USER;
 
 @Controller // View 리턴
 @RequiredArgsConstructor
 public class indexController {
 
     private UserRepository userRepository;
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @GetMapping({"","/"})
     public String index() {
@@ -50,10 +54,9 @@ public class indexController {
     }
 
     @PostMapping("/join")
-    public @ResponseBody String join(User user) {
+    public String join(User user) {
         System.out.println(user);
-        user.setRole(Role.ROLE_USER);
-        userRepository.save(user);
-        return "join";
+        userRepository.save(new User(user.getUsername(), bCryptPasswordEncoder.encode(user.getPassword()), user.getEmail(), ROLE_USER));
+        return "redirect:/loginForm";
     }
 }
