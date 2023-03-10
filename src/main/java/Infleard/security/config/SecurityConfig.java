@@ -13,7 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true) // 특정 주소 접근시 권한 및 인증을 위한 어노테이션 활성화
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    // 메소드 리턴되는 오브젝트를 Ioc로 등록
+    // 메소드 리턴되는 오브젝트를 IoC로 등록
     @Bean
     public BCryptPasswordEncoder encodePwd() {
         return new BCryptPasswordEncoder();
@@ -30,6 +30,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().permitAll() // 나머지 주소는 전부 허용
                 .and()
                 .formLogin()
-                .loginPage("/loginForm");
+                .loginPage("/loginForm")
+                .loginProcessingUrl("/login") // login 호출시 Security 에서 로그인 진행
+                .defaultSuccessUrl("/");
     }
 }
