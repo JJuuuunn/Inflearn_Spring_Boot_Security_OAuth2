@@ -16,8 +16,8 @@ import static Infleard.security.model.Role.ROLE_USER;
 @RequiredArgsConstructor
 public class indexController {
 
-    private UserRepository userRepository;
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final UserRepository userRepository;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @GetMapping({"","/"})
     public String index() {
