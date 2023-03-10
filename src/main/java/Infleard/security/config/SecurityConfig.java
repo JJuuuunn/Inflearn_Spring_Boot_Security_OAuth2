@@ -29,6 +29,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().permitAll() // 나머지 주소는 전부 허용
                 .and()
                 .formLogin()
-                .loginPage("/joinForm");
+                .loginPage("/loginForm");
     }
 }
