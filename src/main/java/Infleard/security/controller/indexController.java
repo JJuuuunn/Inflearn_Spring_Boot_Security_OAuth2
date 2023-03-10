@@ -1,11 +1,19 @@
 package Infleard.security.controller;
 
+import Infleard.security.config.UserRepository;
+import Infleard.security.model.Role;
+import Infleard.security.model.User;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller // View 리턴
+@RequiredArgsConstructor
 public class indexController {
+
+    private UserRepository userRepository;
 
     @GetMapping({"","/"})
     public String index() {
@@ -41,13 +49,11 @@ public class indexController {
         return "joinForm";
     }
 
-    @GetMapping("/join")
-    public @ResponseBody String join() {
+    @PostMapping("/join")
+    public @ResponseBody String join(User user) {
+        System.out.println(user);
+        user.setRole(Role.ROLE_USER);
+        userRepository.save(user);
         return "join";
-    }
-
-    @GetMapping("/joinProc")
-    public @ResponseBody String joinProc() {
-        return "회원 가입 완료됨";
     }
 }

@@ -1,13 +1,13 @@
 package Infleard.security.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import lombok.Data;
+
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-public class User {
+@Data
+public class User extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,6 +15,7 @@ public class User {
     private String username;
     private String password;
     private String email;
-    private String role; // ROLE_USER, ROLE_ADMIN
-    private LocalDateTime createdDate;
+
+    @Enumerated(EnumType.STRING)
+    private Role role; // ROLE_USER, ROLE_ADMIN
 }
