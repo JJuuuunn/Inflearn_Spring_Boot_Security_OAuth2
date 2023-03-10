@@ -1,7 +1,6 @@
 package Infleard.security.controller;
 
-import Infleard.security.config.UserRepository;
-import Infleard.security.model.Role;
+import Infleard.security.repository.UserRepository;
 import Infleard.security.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
