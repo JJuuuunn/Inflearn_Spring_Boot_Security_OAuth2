@@ -1,5 +1,7 @@
 package Infleard.security.config;
 
+import Infleard.security.config.oauth.PrincipalOauth2UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -8,10 +10,13 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+@RequiredArgsConstructor
 @Configuration // IoC 빈(bean)을 등록
 @EnableWebSecurity // 필터 체인 관리 시작 어노테이션
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true) // 특정 주소 접근시 권한 및 인증을 위한 어노테이션(Secured, PreAuthorize) 활성화
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+    private final PrincipalOauth2UserService principalOauth2UserService;
 
     // 메소드 리턴되는 오브젝트를 IoC로 등록
     @Bean
@@ -36,6 +41,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .oauth2Login()
                 .loginPage("/loginForm")
-                ;
+        /** OAuth 로그인 후 후처리 필요
+         *  1. 코드 받기(인증)
+         *  2. 엑세스 토큰(권한)
+         *  3. 사용자프로필 정보 가져오기
+         *  4. 가져온 정보로 회원가입 자동 진행
+         *  Tip. 구글 로그인 완료시 코드로 받지않고 (엑세스토큰 + 사용자 프로필 정보)를 바로 받음
+         */
+                .userInfoEndpoint()
+                .userService(principalOauth2UserService);
+        ;
     }
 }
