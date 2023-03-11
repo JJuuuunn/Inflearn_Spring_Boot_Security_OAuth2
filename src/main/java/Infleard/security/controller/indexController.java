@@ -36,6 +36,15 @@ public class indexController {
         return "세션 정보 확인하기";
     }
 
+    @GetMapping("/test/oauth/login")
+    public @ResponseBody String testOAuthLogin(Authentication authentication, @AuthenticationPrincipal OAuth2User oauth) { //DI 의존성 주입
+        System.out.println("/test/login ==============");
+        OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
+        System.out.println("attributes : " + oAuth2User.getAttributes());
+        System.out.println("oauth2USer : " + oauth.getAttributes());
+        return "OAuth 정보 확인하기";
+    }
+
     @GetMapping({"","/"})
     public String index() {
         // Mustache 기본 폴더 src/main/resources/
