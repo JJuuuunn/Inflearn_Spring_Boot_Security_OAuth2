@@ -16,7 +16,8 @@ public class User extends BaseTimeEntity {
     private String username;
     private String password;
     private String email;
-
+    private String provider;
+    private String providerId;
     @Enumerated(EnumType.STRING)
     private Role role; // ROLE_USER, ROLE_ADMIN
 
