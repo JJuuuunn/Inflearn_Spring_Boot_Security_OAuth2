@@ -1,11 +1,16 @@
 package Infleard.security.controller;
 
+import Infleard.security.config.auth.PrincipalDetails;
 import Infleard.security.repository.UserRepository;
 import Infleard.security.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,6 +24,17 @@ public class indexController {
 
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    @GetMapping("/test/login")
+    public @ResponseBody String testLogin(Authentication authentication, @AuthenticationPrincipal PrincipalDetails userDetails) { //DI 의존성 주입
+        System.out.println("/test/login ==============");
+        System.out.println("authentication : " + authentication.getPrincipal());
+        PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
+        System.out.println("authentication : " + principalDetails.getUser());
+
+        System.out.println("userDetails : " + userDetails.getUser());
+        return "세션 정보 확인하기";
+    }
 
     @GetMapping({"","/"})
     public String index() {
