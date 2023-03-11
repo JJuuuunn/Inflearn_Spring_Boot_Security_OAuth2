@@ -1,4 +1,4 @@
-package Infleard.security.auth;
+package Infleard.security.config.auth;
 
 import Infleard.security.model.User;
 import Infleard.security.repository.UserRepository;
