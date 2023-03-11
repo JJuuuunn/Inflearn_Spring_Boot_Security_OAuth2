@@ -17,7 +17,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public BCryptPasswordEncoder encodePwd() {
         return new BCryptPasswordEncoder();
-    }
+    } // Password Encoding 메소드
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -32,6 +32,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin()
                 .loginPage("/loginForm")
                 .loginProcessingUrl("/login") // login 호출시 Security 에서 로그인 진행
-                .defaultSuccessUrl("/"); // 로그인 성공 후에 로그인 화면 전 경로로 이동
+                .defaultSuccessUrl("/") // 로그인 성공 후에 로그인 화면 전 경로로 이동
+                .and()
+                .oauth2Login()
+                .loginPage("/loginForm")
+                ;
     }
 }
