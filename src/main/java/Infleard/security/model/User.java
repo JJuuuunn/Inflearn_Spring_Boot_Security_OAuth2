@@ -21,14 +21,6 @@ public class User extends BaseTimeEntity {
     private Role role; // ROLE_USER, ROLE_ADMIN
 
     @Builder
-    public User(String username, String password, String email, Role role) {
-        this.username = username;
-        this.password = password;
-        this.email = email;
-        this.role = role;
-    }
-
-    @Builder(builderClassName = "OAuthUserBuilder", builderMethodName = "OAuthUserBuilder")
     public User(String username, String password, String email, String provider, String providerId, Role role) {
         this.username = username;
         this.password = password;
