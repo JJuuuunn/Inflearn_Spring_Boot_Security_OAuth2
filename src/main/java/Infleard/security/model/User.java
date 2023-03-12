@@ -3,7 +3,6 @@ package Infleard.security.model;
 import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -27,5 +26,28 @@ public class User extends BaseTimeEntity {
         this.password = password;
         this.email = email;
         this.role = role;
+    }
+
+    @Builder(builderClassName = "OAuthUserBuilder", builderMethodName = "OAuthUserBuilder")
+    public User(String username, String password, String email, String provider, String providerId, Role role) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.provider = provider;
+        this.providerId = providerId;
+        this.role = role;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", provider='" + provider + '\'' +
+                ", providerId='" + providerId + '\'' +
+                ", role=" + role +
+                '}';
     }
 }
