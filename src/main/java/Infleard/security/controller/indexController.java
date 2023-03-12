@@ -1,14 +1,13 @@
 package Infleard.security.controller;
 
 import Infleard.security.config.auth.PrincipalDetails;
-import Infleard.security.repository.UserRepository;
 import Infleard.security.model.User;
+import Infleard.security.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
@@ -23,7 +22,7 @@ import static Infleard.security.model.Role.ROLE_USER;
 public class indexController {
 
     private final UserRepository userRepository;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final BCryptPasswordEncoder encoder;
 
     @GetMapping("/test/login")
     public @ResponseBody String testLogin(Authentication authentication, @AuthenticationPrincipal PrincipalDetails userDetails) { //DI 의존성 주입
@@ -52,8 +51,11 @@ public class indexController {
         return "index"; // ser/main/resources/templates/index/mustache
     }
 
+    // OAuth 로그인을 해도 PrincipalDetails 로
+    // 일반 로그인을 해도 PrincipalDetails 로 접근
     @GetMapping("/user")
-    public @ResponseBody String user() {
+    public @ResponseBody String user(@AuthenticationPrincipal PrincipalDetails principalDetails) {
+        System.out.println("principalDetails = " + principalDetails.getUser());
         return "user";
     }
 
@@ -82,7 +84,13 @@ public class indexController {
     @PostMapping("/join")
     public String join(User user) {
         System.out.println(user);
-        userRepository.save(new User(user.getUsername(), bCryptPasswordEncoder.encode(user.getPassword()), user.getEmail(), ROLE_USER));
+        User saveUser = User.builder()
+                .username(user.getUsername())
+                .password(encoder.encode(user.getPassword()))
+                .email(user.getEmail())
+                .role(ROLE_USER)
+                .build();
+        userRepository.save(saveUser);
         return "redirect:/loginForm";
     }
 
