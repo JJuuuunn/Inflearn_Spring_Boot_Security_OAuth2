@@ -32,8 +32,14 @@ spring:
       client:
         registration:
           google:
-            client-id: 131478317636-vt8e5j0h300m1h9f8hkhito1va07fgsr.apps.googleusercontent.com
-            client-secret: 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
+            client-id: { Google API Id }
+            client-secret: { Google API Secret Key }
             scope:
               - email
               - profile
+          facebook:
+            client-id: { Facebook API Id }
+            client-secret: { Facebook API Secret Key }
+            scope:
+              - email
+              - public_profile
