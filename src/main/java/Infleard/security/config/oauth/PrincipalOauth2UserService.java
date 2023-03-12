@@ -4,6 +4,7 @@ package Infleard.security.config.oauth;
 import Infleard.security.config.auth.PrincipalDetails;
 import Infleard.security.config.oauth.provider.FacebookUserInfo;
 import Infleard.security.config.oauth.provider.GoogleUserInfo;
+import Infleard.security.config.oauth.provider.NaverUserInfo;
 import Infleard.security.config.oauth.provider.OAuth2userInfo;
 import Infleard.security.model.Role;
 import Infleard.security.model.User;
@@ -15,6 +16,8 @@ import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
+
+import java.util.Map;
 
 import static Infleard.security.model.Role.ROLE_USER;
 
@@ -46,6 +49,9 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
         } else if (userRequest.getClientRegistration().getRegistrationId().equals("facebook")) {
             System.out.println("페이스북 로그인 요청");
             oAuth2userInfo = new FacebookUserInfo(oAuth2User.getAttributes());
+        } else if (userRequest.getClientRegistration().getRegistrationId().equals("naver")) {
+            System.out.println("페이스북 로그인 요청");
+            oAuth2userInfo = new NaverUserInfo((Map)oAuth2User.getAttributes().get("response"));
         } else {
             System.out.println("google facebook 아님");
         }
